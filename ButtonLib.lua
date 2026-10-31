@@ -32,7 +32,7 @@ function v:CreateList(params: params, callback)
 	TextLabel.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
 	TextLabel.Text = params.Header or ''
 	TextLabel.TextColor3 = Color3.new(1.000, 1.000, 1.000)
-	TextLabel.TextSize = 15
+	TextLabel.TextSize = 17
 	TextLabel.BackgroundTransparency = 1
 	TextLabel.Size = UDim2.new(0, 212, 0, 17)
 	UITextSizeConstraint.MaxTextSize = 20
