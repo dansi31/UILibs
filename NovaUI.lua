@@ -404,7 +404,28 @@ function Library.new(config)
                     call(opts.Callback)
                 end)
 
-                return b
+                -- Button API wrapper: keeps access to the TextButton
+                -- while adding methods such as SetText.
+                local button = setmetatable({
+                    Instance = b
+                }, {
+                    __index = function(_, key)
+                        return b[key]
+                    end,
+                    __newindex = function(_, key, value)
+                        b[key] = value
+                    end
+                })
+
+                function button:SetText(text)
+                    b.Text = tostring(text)
+                end
+
+                function button:GetText()
+                    return b.Text
+                end
+
+                return button
             end
 
             -- TOGGLE
@@ -424,7 +445,7 @@ function Library.new(config)
 
                 corner(row,7)
 
-                make("TextLabel", {
+                local toggleLabel = make("TextLabel", {
                     Position = UDim2.fromOffset(10,0),
                     Size = UDim2.new(1,-62,1,0),
                     BackgroundTransparency = 1,
@@ -469,6 +490,14 @@ function Library.new(config)
 
                 function toggle:Get()
                     return enabled
+                end
+
+                function toggle:SetText(text)
+                    toggleLabel.Text = tostring(text)
+                end
+
+                function toggle:GetText()
+                    return toggleLabel.Text
                 end
 
                 row.MouseButton1Click:Connect(function()
