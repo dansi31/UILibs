@@ -394,8 +394,8 @@ function Library.new(config)
                     Font = opts.Font or Enum.Font.Gotham,
                     TextXAlignment = opts.TextXAlignment or Enum.TextXAlignment.Left,
                     TextYAlignment = Enum.TextYAlignment.Top,
-                    TextWrapped = opts.TextWrapped ~= false,
-                    RichText = opts.RichText == true,
+                    --TextWrapped = opts.TextWrapped ~= false,
+                    --RichText = opts.RichText == true,
                     LayoutOrder = opts.LayoutOrder or 0
                 }, section)
 
