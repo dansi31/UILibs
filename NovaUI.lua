@@ -1,12 +1,12 @@
 
 --[[
-    NOVA UI v2.1
+    NOVA UI v2.3
     Luau UI Library
     Executors: Real / Xeno
 
     FEATURES:
     Window / Tabs / Sections
-    Button / Toggle / Slider
+    Text / Button / Toggle / Slider
     Dropdown / Input
     Set / Get / Refresh
     OnClose Callback
@@ -373,6 +373,53 @@ function Library.new(config)
             },section)
 
             local s = {}
+
+            -- TEXT
+
+            function s:CreateText(opts)
+                -- Supports both CreateText("Hello") and CreateText({Text = "Hello"})
+                if type(opts) == "string" or type(opts) == "number" then
+                    opts = {Text = tostring(opts)}
+                else
+                    opts = opts or {}
+                end
+
+                local label = make("TextLabel", {
+                    Size = UDim2.new(1,0,0,0),
+                    AutomaticSize = Enum.AutomaticSize.Y,
+                    BackgroundTransparency = 1,
+                    Text = tostring(opts.Text or opts.Name or "Text"),
+                    TextColor3 = opts.TextColor or C.text,
+                    TextSize = opts.TextSize or 12,
+                    Font = opts.Font or Enum.Font.Gotham,
+                    TextXAlignment = opts.TextXAlignment or Enum.TextXAlignment.Left,
+                    TextYAlignment = Enum.TextYAlignment.Top,
+                    TextWrapped = opts.TextWrapped ~= false,
+                    RichText = opts.RichText == true,
+                    LayoutOrder = opts.LayoutOrder or 0
+                }, section)
+
+                local textObject = setmetatable({
+                    Instance = label
+                }, {
+                    __index = function(_, key)
+                        return label[key]
+                    end,
+                    __newindex = function(_, key, value)
+                        label[key] = value
+                    end
+                })
+
+                function textObject:SetText(text)
+                    label.Text = tostring(text)
+                end
+
+                function textObject:GetText()
+                    return label.Text
+                end
+
+                return textObject
+            end
 
             -- BUTTON
 
