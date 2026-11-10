@@ -1,6 +1,6 @@
 
 --[[
-    NOVA UI v2.3
+    NOVA UI v2.4
     Luau UI Library
     Executors: Real / Xeno
 
@@ -399,24 +399,34 @@ function Library.new(config)
                     LayoutOrder = opts.LayoutOrder or 0
                 }, section)
 
+                local textMethods = {}
+
+                function textMethods:SetText(text)
+                    label.Text = tostring(text)
+                end
+
+                function textMethods:GetText()
+                    return label.Text
+                end
+
                 local textObject = setmetatable({
                     Instance = label
                 }, {
                     __index = function(_, key)
+                        local method = textMethods[key]
+                        if method then
+                            return method
+                        end
                         return label[key]
                     end,
-                    __newindex = function(_, key, value)
-                        label[key] = value
+                    __newindex = function(self, key, value)
+                        if key == "Instance" then
+                            rawset(self, key, value)
+                        else
+                            label[key] = value
+                        end
                     end
                 })
-
-                function textObject:SetText(text)
-                    label.Text = tostring(text)
-                end
-
-                function textObject:GetText()
-                    return label.Text
-                end
 
                 return textObject
             end
@@ -451,26 +461,35 @@ function Library.new(config)
                     call(opts.Callback)
                 end)
 
-                -- Button API wrapper: keeps access to the TextButton
-                -- while adding methods such as SetText.
+                -- Wrapper keeps custom Lua methods separate from Roblox Instance.
+                local buttonMethods = {}
+
+                function buttonMethods:SetText(text)
+                    b.Text = tostring(text)
+                end
+
+                function buttonMethods:GetText()
+                    return b.Text
+                end
+
                 local button = setmetatable({
                     Instance = b
                 }, {
                     __index = function(_, key)
+                        local method = buttonMethods[key]
+                        if method then
+                            return method
+                        end
                         return b[key]
                     end,
-                    __newindex = function(_, key, value)
-                        b[key] = value
+                    __newindex = function(self, key, value)
+                        if key == "Instance" then
+                            rawset(self, key, value)
+                        else
+                            b[key] = value
+                        end
                     end
                 })
-
-                function button:SetText(text)
-                    b.Text = tostring(text)
-                end
-
-                function button:GetText()
-                    return b.Text
-                end
 
                 return button
             end
