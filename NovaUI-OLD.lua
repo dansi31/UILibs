@@ -1,5 +1,5 @@
 --[[
-    NOVA UI LIBRARY v2
+    NOVA UI LIBRARY v 1.0
     Compatible: Roblox Luau
     Executors: Real, Xeno
     Features:
