@@ -485,6 +485,10 @@ function Library.new(config)
                     return label.Text
                 end
 
+                function textMethods:Remove()
+                    label:Destroy()
+                end
+
                 local textObject = setmetatable({
                     Instance = label
                 }, {
@@ -546,6 +550,10 @@ function Library.new(config)
 
                 function buttonMethods:GetText()
                     return b.Text
+                end
+
+                function buttonMethods:Remove()
+                    b:Destroy()
                 end
 
                 local button = setmetatable({
@@ -640,6 +648,10 @@ function Library.new(config)
 
                 function toggle:GetText()
                     return toggleLabel.Text
+                end
+
+                function toggle:Remove()
+                    row:Destroy()
                 end
 
                 row.MouseButton1Click:Connect(function()
@@ -783,6 +795,12 @@ function Library.new(config)
                     setValue(v,true)
                 end
 
+                function slider:Remove()
+                    sliding = false
+                    moveConnection:Disconnect()
+                    endConnection:Disconnect()
+                    row:Destroy()
+                end
                 function slider:Get()
                     return value
                 end
@@ -959,6 +977,11 @@ function Library.new(config)
                     updateMenu()
                 end
 
+
+                function drop:Remove()
+                    row:Destroy()
+                end
+
                 return drop
             end
 
@@ -1018,7 +1041,17 @@ function Library.new(config)
                     call(opts.Callback,input.Text,true)
                 end
 
+                function field:Remove()
+                    row:Destroy()
+                end
                 return field
+            end
+
+            -- SECTION REMOVE API
+            function s:Remove()
+                if section and section.Parent then
+                    section:Destroy()
+                end
             end
 
             return s
